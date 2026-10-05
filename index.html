@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MPI Interaktif - Tempat Tinggalku Bagian dari NKRI</title>
+  <meta name="description" content="Media Pembelajaran Interaktif Tematik SD materi Tempat Tinggalku Bagian dari NKRI" />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              purple: '#7B2CBF',
+              teal: '#2EC4B6',
+              amber: '#FF9F1C'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            fun: ['Fredoka', 'Plus Jakarta Sans', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    h1, h2, h3, .font-fun { font-family: 'Fredoka', 'Plus Jakarta Sans', sans-serif; }
+    @media print {
+      body * { visibility: hidden; }
+      #certificate-area, #certificate-area * { visibility: visible; }
+      #certificate-area {
+        position: absolute; left: 0; top: 0; width: 100vw; height: 100vh;
+        margin: 0; padding: 0; background: white !important; -webkit-print-color-adjust: exact;
+      }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
+
+  <!-- Top Accent Bar -->
+  <div class="h-2 w-full bg-gradient-to-r from-[#7B2CBF] via-[#2EC4B6] to-[#FF9F1C]"></div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-purple-100 dark:border-slate-800 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-3">
+      <div onclick="navigateMenu('home')" class="flex items-center gap-3 cursor-pointer select-none">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#7B2CBF] to-[#2EC4B6] flex items-center justify-center text-white text-2xl shadow-md">
+          🇮🇩
+        </div>
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950 text-[#7B2CBF] dark:text-purple-300">
+            Tematik SD • Canva Style
+          </span>
+          <h1 class="text-base sm:text-lg font-black text-slate-800 dark:text-white font-fun leading-tight">
+            Tempat Tinggalku <span class="text-[#7B2CBF] dark:text-purple-400">Bagian dari NKRI</span>
+          </h1>
+        </div>
+      </div>
+
+      <!-- Nav Menu -->
+      <nav class="hidden md:flex items-center gap-1.5 bg-purple-50/80 dark:bg-slate-800 p-1.5 rounded-2xl border border-purple-100 dark:border-slate-700 text-xs font-bold">
+        <button onclick="navigateMenu('home')" class="nav-btn px-3 py-1.5 rounded-xl transition-all" data-menu="home">🏠 Beranda</button>
+        <button onclick="navigateMenu('materi')" class="nav-btn px-3 py-1.5 rounded-xl transition-all" data-menu="materi">📖 Materi</button>
+        <button onclick="navigateMenu('simulasi')" class="nav-btn px-3 py-1.5 rounded-xl transition-all" data-menu="simulasi">🎮 Simulasi</button>
+        <button onclick="navigateMenu('asesmen')" class="nav-btn px-3 py-1.5 rounded-xl transition-all" data-menu="asesmen">📝 Asesmen</button>
+        <button onclick="navigateMenu('sertifikat')" class="nav-btn px-3 py-1.5 rounded-xl transition-all" data-menu="sertifikat">🎓 Sertifikat</button>
+        <button onclick="navigateMenu('kirim-nilai')" class="nav-btn px-3 py-1.5 rounded-xl transition-all" data-menu="kirim-nilai">📲 Kirim Nilai</button>
+      </nav>
+
+      <!-- Controls -->
+      <div class="flex items-center gap-2">
+        <button onclick="openProfileModal()" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-50 dark:bg-slate-800 border border-purple-200 dark:border-slate-700 text-xs font-bold">
+          <span class="w-6 h-6 rounded-full bg-[#7B2CBF] text-white flex items-center justify-center text-[11px]" id="header-avatar">D</span>
+          <span class="hidden sm:inline" id="header-name">Danu Waloyo</span>
+        </button>
+        <button onclick="toggleDarkMode()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-[#7B2CBF] dark:text-amber-300">
+          🌓
+        </button>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-2 flex items-center gap-3">
+      <div class="flex-1 bg-purple-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+        <div id="progress-bar" class="bg-gradient-to-r from-[#7B2CBF] to-[#2EC4B6] h-full w-0 transition-all duration-500"></div>
+      </div>
+      <span id="progress-text" class="text-[11px] font-bold text-slate-600 dark:text-slate-300">0% Siap</span>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-16" id="app-content"></main>
+
+  <!-- Floating Audio Recorder Widget -->
+  <aside id="floating-recorder" class="fixed bottom-5 right-4 sm:right-8 z-50 flex flex-col items-end pointer-events-auto">
+    <div id="recorder-drawer" class="hidden w-[330px] sm:w-[360px] mb-3 bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border-2 border-purple-300 dark:border-purple-800 p-4 animate-in fade-in">
+      <div class="flex items-center justify-between pb-2 border-b border-purple-100 dark:border-slate-800">
+        <div class="flex items-center gap-2">
+          <span class="p-1.5 rounded-full bg-purple-100 text-[#7B2CBF]">🎙️</span>
+          <h4 class="text-xs font-bold font-fun">Perekam Suara Siswa</h4>
+        </div>
+        <button onclick="toggleRecorderDrawer()" class="text-slate-400 hover:text-slate-600">✕</button>
+      </div>
+      
+      <div id="recorder-active-view" class="hidden py-4 text-center space-y-2 bg-purple-50 dark:bg-slate-800 rounded-2xl my-2 p-3 border border-purple-200">
+        <p class="text-2xl font-black font-mono text-rose-500" id="record-timer">00:00</p>
+        <p class="text-xs font-bold text-slate-600 dark:text-slate-300 animate-pulse">Sedang merekam suara membaca... 🎤</p>
+        <button onclick="stopRecording()" class="w-full py-2 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-xl text-xs shadow">
+          ⏹️ Selesai & Simpan Rekaman
+        </button>
+      </div>
+
+      <div id="recorder-idle-view" class="py-3 text-center space-y-2">
+        <button onclick="startRecording()" class="w-full py-2.5 bg-gradient-to-r from-[#7B2CBF] to-[#2EC4B6] text-white font-bold rounded-xl text-xs shadow-md hover:scale-102 transition-all">
+          🎙️ Mulai Rekam Suara Membaca
+        </button>
+      </div>
+
+      <div class="mt-2 text-xs">
+        <span class="font-bold text-slate-500 text-[10px] uppercase">Daftar Rekaman Tersimpan:</span>
+        <div id="recordings-list" class="max-h-32 overflow-y-auto space-y-1.5 mt-1">
+          <p class="text-[11px] text-slate-400 text-center py-2">Belum ada rekaman tersimpan.</p>
+        </div>
+      </div>
+    </div>
+
+    <button onclick="toggleRecorderDrawer()" id="floating-rec-btn" class="flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-[#7B2CBF] to-[#2EC4B6] text-white font-bold shadow-2xl border-2 border-white/40 hover:scale-105 transition-all text-xs sm:text-sm font-fun">
+      <span>🎙️ Rekam Suara</span>
+    </button>
+  </aside>
+
+  <!-- Profile Modal -->
+  <div id="profile-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+    <div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-2xl border border-purple-200 dark:border-slate-800 space-y-4">
+      <div class="flex justify-between items-center pb-2 border-b border-purple-100 dark:border-slate-800">
+        <h3 class="text-base font-black font-fun">👤 Profil Peserta Didik</h3>
+        <button onclick="closeProfileModal()" class="text-slate-400">✕</button>
+      </div>
+      <div class="space-y-3 text-xs font-bold">
+        <div>
+          <label class="block mb-1 text-slate-500">Nama Lengkap Siswa:</label>
+          <input type="text" id="input-student-name" class="w-full px-3 py-2.5 rounded-xl border border-purple-200 dark:border-slate-700 dark:bg-slate-800 text-sm" value="Danu Waloyo" />
+        </div>
+        <div>
+          <label class="block mb-1 text-slate-500">Kelas:</label>
+          <select id="input-student-grade" class="w-full px-3 py-2.5 rounded-xl border border-purple-200 dark:border-slate-700 dark:bg-slate-800 text-sm">
+            <option value="Kelas 1 SD">Kelas 1 SD</option>
+            <option value="Kelas 2 SD" selected>Kelas 2 SD</option>
+            <option value="Kelas 3 SD">Kelas 3 SD</option>
+            <option value="Kelas 4 SD">Kelas 4 SD</option>
+            <option value="Kelas 5 SD">Kelas 5 SD</option>
+            <option value="Kelas 6 SD">Kelas 6 SD</option>
+          </select>
+        </div>
+        <div>
+          <label class="block mb-1 text-slate-500">Nama Sekolah:</label>
+          <input type="text" id="input-student-school" class="w-full px-3 py-2.5 rounded-xl border border-purple-200 dark:border-slate-700 dark:bg-slate-800 text-sm" value="SD Negeri 01 Indonesia" />
+        </div>
+      </div>
+      <div class="pt-2 flex justify-end gap-2">
+        <button onclick="closeProfileModal()" class="px-4 py-2 text-xs font-bold text-slate-500">Batal</button>
+        <button onclick="saveProfile()" class="px-5 py-2 bg-[#7B2CBF] text-white text-xs font-bold rounded-xl shadow">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-auto bg-white dark:bg-slate-900 border-t border-purple-100 dark:border-slate-800 py-8 text-center text-xs text-slate-500">
+    <p class="font-bold text-slate-700 dark:text-slate-300">Media Pembelajaran Interaktif (MPI) Tematik SD • B. Tempat Tinggalku Bagian dari NKRI</p>
+    <p class="mt-1">WhatsApp Admin / Guru: <a href="https://wa.me/6285828459399" target="_blank" class="text-emerald-500 font-bold hover:underline">0858-2845-9399</a></p>
+  </footer>
+
+  <!-- Main Script -->
+  <script>
+    let state = {
+      menu: 'home',
+      student: { name: 'Danu Waloyo', grade: 'Kelas 2 SD', school: 'SD Negeri 01 Indonesia' },
+      completedModules: [],
+      assessmentResult: null,
+      recordings: [],
+      darkMode: false
+    };
+
+    const MATERI_DATA = [
+      {
+        id: 'nkri',
+        title: 'Indonesia Bagian dari NKRI',
+        text: 'Indonesia adalah Negara Kesatuan Republik Indonesia (NKRI). Indonesia merupakan negara kepulauan yang terdiri atas pulau-pulau besar dan kecil. Jumlah pulau di Indonesia lebih dari 17.000 pulau. Luas wilayah daratan Indonesia menurut BPS tahun 2021 mencapai 1.916.906 kilometer persegi yang terbentang luas dari Sabang di ujung barat sampai Merauke di ujung timur.',
+        points: ['Memiliki lebih dari 17.000 pulau.', 'Luas daratan 1.916.906 km² (BPS 2021).', 'Terbentang dari Sabang hingga Merauke.']
+      },
+      {
+        id: 'wilayah',
+        title: 'Tempat Tinggalku & Jenjang Wilayah',
+        text: 'Rumahmu dan rumah tetangga disatukan dalam lingkungan Rukun Tetangga (RT). RT adalah gabungan beberapa keluarga. Gabungan beberapa RT disebut RW. Kumpulan RW membentuk Kelurahan. Gabungan kelurahan membentuk Kecamatan. Gabungan kecamatan membentuk Kabupaten/Kota. Dan seluruhnya bersatu dalam NKRI dipimpin Presiden.',
+        points: ['RT dipimpin Ketua RT', 'RW dipimpin Ketua RW', 'Kelurahan dipimpin Lurah', 'Kecamatan dipimpin Camat', 'Kabupaten dipimpin Bupati', 'NKRI dipimpin Presiden']
+      },
+      {
+        id: 'lingkungan',
+        title: 'Keberagaman & Menjaga Lingkungan',
+        text: 'Lingkungan sekitar kita sangat beragam (sawah, pasar, kebun, sekolah, gedung). Lingkungan memengaruhi kehidupan manusia. Jika lingkungan rusak seperti hutan gundul maka terjadi bencana banjir. Jika hutan asri, air tercukupi dan terhindar dari bencana.',
+        points: ['Hutan gundul menyebabkan banjir dan longsor.', 'Hutan asri memberikan udara sejuk dan sumber air.', 'Kita wajib menjaga kebersihan dan menanam pohon.']
+      },
+      {
+        id: 'bentang-alam',
+        title: '3 Bentang Alam & Mata Pencarian',
+        text: 'Dataran tinggi berhawa sejuk, banyak kebun teh, kopi, dan sayur (petani sayur/buah). Dataran rendah banyak persawahan, gedung, kantor, dan pabrik (pegawai, pedagang, petani padi). Wilayah pantai berupa laut dan pasir, banyak nelayan dan tambak garam.',
+        points: ['Dataran Tinggi: Hawa sejuk, kebun teh/kopi/sayur.', 'Dataran Rendah: Pusat kota, sawah, kantor, pabrik.', 'Pantai: Laut, pasir, pohon kelapa, nelayan & garam.']
+      },
+      {
+        id: 'makhluk-sosial',
+        title: 'Hidup Rukun & Makhluk Sosial',
+        text: 'Perbedaan lingkungan tidak boleh dipermasalahkan. Kita harus saling menghargai keberagaman, saling menyapa, dan gotong royong. Manusia adalah makhluk sosial yang tidak bisa hidup sendiri tanpa bantuan orang lain.',
+        points: ['Makhluk sosial = tidak bisa hidup sendiri.', 'Selalu bersikap ramah dan saling menyapa.', 'Ikut kerja bakti membersihkan lingkungan.']
+      }
+    ];
+
+    const SOAL_ASESMEN = [
+      { id: 1, q: "Indonesia merupakan negara dengan bentuk wilayah berupa...", opt: ["Negara benua", "Negara kepulauan", "Negara gurun", "Negara es"], ans: 1 },
+      { id: 2, q: "Berdasarkan data BPS 2021, luas wilayah daratan Indonesia adalah...", opt: ["916.906 km²", "1.916.906 km²", "2.916.906 km²", "17.000 km²"], ans: 1 },
+      { id: 3, q: "Wilayah Indonesia terbentang luas dari...", opt: ["Sabang hingga Merauke", "Jakarta hingga Bali", "Sumatra hingga Jawa", "Medan hingga Solo"], ans: 0 },
+      { id: 4, q: "Jumlah pulau di Indonesia diperkirakan lebih dari...", opt: ["1.000 pulau", "5.000 pulau", "10.000 pulau", "17.000 pulau"], ans: 3 },
+      { id: 5, q: "Gabungan beberapa keluarga terdekat dalam satu wilayah membentuk...", opt: ["Rukun Tetangga (RT)", "Kecamatan", "Kabupaten", "Provinsi"], ans: 0 },
+      { id: 6, q: "Gabungan dari beberapa Rukun Tetangga (RT) disebut...", opt: ["Rukun Warga (RW)", "Kecamatan", "Provinsi", "Negara"], ans: 0 },
+      { id: 7, q: "Kumpulan dari beberapa kelurahan/desa membentuk...", opt: ["RT", "RW", "Kecamatan", "Dusun"], ans: 2 },
+      { id: 8, q: "Urutan susunan jenjang wilayah yang tepat dari terkecil adalah...", opt: ["RT ➔ RW ➔ Kelurahan ➔ Kecamatan ➔ Kabupaten", "RW ➔ RT ➔ Kecamatan ➔ Kabupaten", "Kelurahan ➔ RT ➔ RW ➔ Kecamatan", "Kabupaten ➔ Kecamatan ➔ Desa"], ans: 0 },
+      { id: 9, q: "Pemimpin yang memimpin sebuah Kelurahan adalah...", opt: ["Camat", "Lurah", "Bupati", "Presiden"], ans: 1 },
+      { id: 10, q: "Tingkat Kecamatan dipimpin oleh seorang...", opt: ["Lurah", "Camat", "Bupati", "Gubernur"], ans: 1 },
+      { id: 11, q: "Kabupaten dipimpin oleh seorang...", opt: ["Camat", "Bupati", "Ketua RT", "Lurah"], ans: 1 },
+      { id: 12, q: "Pemimpin tertinggi Negara Indonesia adalah...", opt: ["Presiden", "Bupati", "Camat", "Gubernur"], ans: 0 },
+      { id: 13, q: "Akibat buruk jika hutan ditebang liar hingga gundul adalah...", opt: ["Udara makin sejuk", "Bencana banjir dan longsor", "Sungai makin jernih", "Panen melimpah"], ans: 1 },
+      { id: 14, q: "Manfaat utama menjaga kelestarian hutan adalah...", opt: ["Menyebabkan banjir", "Cadangan air tercukupi dan udara segar", "Menghilangkan tanaman", "Suhu makin panas"], ans: 1 },
+      { id: 15, q: "Bentang alam pegunungan dengan hawa sejuk disebut...", opt: ["Dataran rendah", "Pantai", "Dataran tinggi", "Lembah laut"], ans: 2 },
+      { id: 16, q: "Tanaman yang subur di daerah dataran tinggi adalah...", opt: ["Kelapa & bakau", "Teh, kopi, wortel, dan sayur", "Kaktus", "Rumput laut"], ans: 1 },
+      { id: 17, q: "Fasilitas umum seperti pabrik, kantor pemerintahan, dan rumah sakit banyak di...", opt: ["Dataran rendah", "Puncak gunung", "Palung laut", "Hutan rimba"], ans: 0 },
+      { id: 18, q: "Masyarakat di pesisir pantai sebagian besar bekerja sebagai...", opt: ["Petani teh", "Nelayan penangkap ikan", "Petani sayur kol", "Penebang pohon"], ans: 1 },
+      { id: 19, q: "Manusia disebut makhluk sosial karena...", opt: ["Bisa hidup sendiri", "Selalu membutuhkan bantuan manusia lain", "Hanya sayang diri sendiri", "Tinggal di goa"], ans: 1 },
+      { id: 20, q: "Contoh sikap rukun di lingkungan tempat tinggal adalah...", opt: ["Memusuhi tetangga", "Saling menyapa dan ikut kerja bakti", "Membuang sampah ke rumah tetangga", "Mengejek pekerjaan orang"], ans: 1 }
+    ];
+
+    function navigateMenu(menu) {
+      state.menu = menu;
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        if (btn.dataset.menu === menu) {
+          btn.className = 'nav-btn px-3 py-1.5 rounded-xl transition-all bg-[#7B2CBF] text-white shadow-sm font-bold';
+        } else {
+          btn.className = 'nav-btn px-3 py-1.5 rounded-xl transition-all text-slate-600 dark:text-slate-300 hover:text-[#7B2CBF]';
+        }
+      });
+      renderContent();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateProgress() {
+      const modScore = (state.completedModules.length / MATERI_DATA.length) * 60;
+      const testScore = state.assessmentResult ? 40 : 0;
+      const total = Math.min(100, Math.round(modScore + testScore));
+      document.getElementById('progress-bar').style.width = total + '%';
+      document.getElementById('progress-text').innerText = total + '% Siap';
+    }
+
+    function renderContent() {
+      const container = document.getElementById('app-content');
+      updateProgress();
+
+      if (state.menu === 'home') {
+        container.innerHTML = `
+          <div class="space-y-8 animate-in fade-in">
+            <div class="rounded-3xl bg-gradient-to-r from-[#7B2CBF] via-purple-700 to-[#2EC4B6] p-8 sm:p-12 text-white shadow-2xl space-y-4">
+              <span class="px-3 py-1 rounded-full bg-white/20 text-xs font-bold">✨ Media Pembelajaran Interaktif Tematik SD</span>
+              <h2 class="text-3xl sm:text-5xl font-black font-fun">Halo, ${state.student.name}! 👋</h2>
+              <p class="text-sm sm:text-base text-purple-100 max-w-2xl">Selamat belajar materi <strong>Tempat Tinggalku Bagian dari NKRI</strong> dengan tampilan Canva interaktif, perekam suara, simulasi seru, dan sertifikat kelulusan!</p>
+              <div class="flex gap-3 pt-2">
+                <button onclick="navigateMenu('materi')" class="px-6 py-3 bg-white text-[#7B2CBF] font-black rounded-2xl text-xs sm:text-sm shadow hover:scale-105 transition-all">📖 Buka Materi</button>
+                <button onclick="navigateMenu('simulasi')" class="px-6 py-3 bg-[#2EC4B6] text-white font-black rounded-2xl text-xs sm:text-sm shadow hover:scale-105 transition-all">🎮 Mainkan Simulasi</button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div onclick="navigateMenu('materi')" class="p-6 bg-white dark:bg-slate-900 rounded-3xl border-2 border-purple-200 dark:border-slate-800 hover:border-[#7B2CBF] shadow-lg cursor-pointer hover:-translate-y-1 transition-all space-y-3">
+                <div class="w-12 h-12 rounded-2xl bg-purple-100 text-[#7B2CBF] flex items-center justify-center text-2xl">📖</div>
+                <h3 class="text-lg font-black font-fun">Materi Pembelajaran</h3>
+                <p class="text-xs text-slate-500">5 Modul lengkap dengan narasi suara dan perekam suara melayang.</p>
+              </div>
+
+              <div onclick="navigateMenu('simulasi')" class="p-6 bg-white dark:bg-slate-900 rounded-3xl border-2 border-teal-200 dark:border-slate-800 hover:border-[#2EC4B6] shadow-lg cursor-pointer hover:-translate-y-1 transition-all space-y-3">
+                <div class="w-12 h-12 rounded-2xl bg-teal-100 text-[#2EC4B6] flex items-center justify-center text-2xl">🎮</div>
+                <h3 class="text-lg font-black font-fun">Simulasi & Game</h3>
+                <p class="text-xs text-slate-500">Susun pemimpin RT-Presiden dan pilah 3 bentang alam.</p>
+              </div>
+
+              <div onclick="navigateMenu('asesmen')" class="p-6 bg-white dark:bg-slate-900 rounded-3xl border-2 border-amber-200 dark:border-slate-800 hover:border-[#FF9F1C] shadow-lg cursor-pointer hover:-translate-y-1 transition-all space-y-3">
+                <div class="w-12 h-12 rounded-2xl bg-amber-100 text-[#FF9F1C] flex items-center justify-center text-2xl">📝</div>
+                <h3 class="text-lg font-black font-fun">Asesmen Akhir</h3>
+                <p class="text-xs text-slate-500">20 butir soal pilihan ganda, skor otomatis, dan efek konfeti.</p>
+              </div>
+
+              <div onclick="navigateMenu('sertifikat')" class="p-6 bg-white dark:bg-slate-900 rounded-3xl border-2 border-purple-200 dark:border-slate-800 hover:border-[#7B2CBF] shadow-lg cursor-pointer hover:-translate-y-1 transition-all space-y-3">
+                <div class="w-12 h-12 rounded-2xl bg-purple-100 text-[#7B2CBF] flex items-center justify-center text-2xl">🎓</div>
+                <h3 class="text-lg font-black font-fun">Sertifikat Belajar</h3>
+                <p class="text-xs text-slate-500">Unduh versi PDF, simpan format JPG, dan cetak langsung.</p>
+              </div>
+
+              <div onclick="navigateMenu('kirim-nilai')" class="p-6 bg-white dark:bg-slate-900 rounded-3xl border-2 border-teal-200 dark:border-slate-800 hover:border-[#2EC4B6] shadow-lg cursor-pointer hover:-translate-y-1 transition-all space-y-3 md:col-span-2">
+                <div class="w-12 h-12 rounded-2xl bg-teal-100 text-[#2EC4B6] flex items-center justify-center text-2xl">📲</div>
+                <h3 class="text-lg font-black font-fun">Kirim Nilai ke WA Guru</h3>
+                <p class="text-xs text-slate-500">Format otomatis laporan nilai dan rekaman suara ke 0858-2845-9399.</p>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (state.menu === 'materi') {
+        container.innerHTML = `
+          <div class="space-y-6 animate-in fade-in">
+            <div class="rounded-3xl bg-gradient-to-r from-[#7B2CBF] to-[#2EC4B6] p-6 sm:p-8 text-white shadow-xl flex justify-between items-center">
+              <div>
+                <h2 class="text-2xl sm:text-3xl font-black font-fun">Materi: B. Tempat Tinggalku Bagian dari NKRI</h2>
+                <p class="text-xs sm:text-sm text-purple-100">Dengarkan narasi suara dan rekam suaramu membaca teks materi!</p>
+              </div>
+            </div>
+
+            <div class="space-y-6">
+              ${MATERI_DATA.map((mat, idx) => `
+                <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-lg border border-purple-100 dark:border-slate-800 space-y-4">
+                  <div class="flex items-center justify-between">
+                    <span class="px-3 py-1 rounded-full bg-purple-100 text-[#7B2CBF] text-xs font-bold">Submateri 0${idx + 1}</span>
+                    <button onclick="readAloudText('${mat.text.replace(/'/g, "\\'")}')" class="px-3 py-1.5 bg-purple-50 dark:bg-slate-800 text-[#7B2CBF] rounded-xl text-xs font-bold hover:bg-purple-100 flex items-center gap-1">
+                      🔊 Baca Teks
+                    </button>
+                  </div>
+                  <h3 class="text-xl font-black font-fun text-slate-800 dark:text-white">${mat.title}</h3>
+                  <p class="text-base text-slate-700 dark:text-slate-200 leading-relaxed font-fun bg-purple-50/50 dark:bg-slate-800 p-4 rounded-2xl">"${mat.text}"</p>
+                  <div class="space-y-2 pt-2">
+                    ${mat.points.map(pt => `<div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 text-xs font-semibold flex items-center gap-2">✔ ${pt}</div>`).join('')}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="flex justify-between items-center pt-4">
+              <button onclick="navigateMenu('home')" class="px-4 py-2 bg-slate-200 dark:bg-slate-800 rounded-xl text-xs font-bold">🏠 Beranda</button>
+              <button onclick="navigateMenu('asesmen')" class="px-6 py-3 bg-[#FF9F1C] text-white font-bold rounded-2xl text-xs shadow">Lanjut ke Asesmen Akhir ➔</button>
+            </div>
+          </div>
+        `;
+      } else if (state.menu === 'asesmen') {
+        renderAsesmen(container);
+      } else if (state.menu === 'sertifikat') {
+        renderSertifikat(container);
+      } else if (state.menu === 'kirim-nilai') {
+        renderKirimNilai(container);
+      } else if (state.menu === 'simulasi') {
+        renderSimulasi(container);
+      }
+    }
+
+    function readAloudText(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'id-ID';
+        u.rate = 0.95;
+        window.speechSynthesis.speak(u);
+      }
+    }
+
+    function toggleDarkMode() {
+      state.darkMode = !state.darkMode;
+      document.documentElement.classList.toggle('dark', state.darkMode);
+    }
+
+    function openProfileModal() { document.getElementById('profile-modal').classList.remove('hidden'); }
+    function closeProfileModal() { document.getElementById('profile-modal').classList.add('hidden'); }
+    function saveProfile() {
+      state.student.name = document.getElementById('input-student-name').value || 'Danu Waloyo';
+      state.student.grade = document.getElementById('input-student-grade').value || 'Kelas 2 SD';
+      state.student.school = document.getElementById('input-student-school').value || 'SD Negeri 01 Indonesia';
+      document.getElementById('header-name').innerText = state.student.name;
+      document.getElementById('header-avatar').innerText = state.student.name.charAt(0).toUpperCase();
+      closeProfileModal();
+      renderContent();
+    }
+
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let recordTimerInterval = null;
+    let recSeconds = 0;
+
+    function toggleRecorderDrawer() {
+      document.getElementById('recorder-drawer').classList.toggle('hidden');
+    }
+
+    async function startRecording() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+        mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) audioChunks.push(e.data); };
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(audioChunks, { type: 'audio/webm' });
+          const url = URL.createObjectURL(blob);
+          state.recordings.unshift({
+            id: 'rec-' + Date.now(),
+            title: `Rekaman Suara (${new Date().toLocaleTimeString('id-ID')})`,
+            duration: recSeconds,
+            url
+          });
+          stream.getTracks().forEach(t => t.stop());
+          renderRecordingsList();
+        };
+
+        mediaRecorder.start();
+        recSeconds = 0;
+        document.getElementById('recorder-idle-view').classList.add('hidden');
+        document.getElementById('recorder-active-view').classList.remove('hidden');
+        recordTimerInterval = setInterval(() => {
+          recSeconds++;
+          const m = String(Math.floor(recSeconds / 60)).padStart(2, '0');
+          const s = String(recSeconds % 60).padStart(2, '0');
+          document.getElementById('record-timer').innerText = `${m}:${s}`;
+        }, 1000);
+      } catch (err) {
+        alert('Mohon izinkan akses mikrofon di browser.');
+      }
+    }
+
+    function stopRecording() {
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.stop();
+        clearInterval(recordTimerInterval);
+        document.getElementById('recorder-active-view').classList.add('hidden');
+        document.getElementById('recorder-idle-view').classList.remove('hidden');
+      }
+    }
+
+    function renderRecordingsList() {
+      const list = document.getElementById('recordings-list');
+      if (state.recordings.length === 0) {
+        list.innerHTML = '<p class="text-[11px] text-slate-400 text-center py-2">Belum ada rekaman tersimpan.</p>';
+      } else {
+        list.innerHTML = state.recordings.map(r => `
+          <div class="p-2 rounded-xl bg-purple-50 dark:bg-slate-800 flex items-center justify-between text-xs">
+            <span class="font-bold truncate">${r.title}</span>
+            <div class="flex gap-1">
+              <button onclick="new Audio('${r.url}').play()" class="px-2 py-1 bg-[#7B2CBF] text-white rounded-lg text-[10px]">▶</button>
+              <a href="${r.url}" download="suara_siswa.webm" class="px-2 py-1 bg-teal-500 text-white rounded-lg text-[10px]">💾</a>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    let userAnswers = {};
+    function renderAsesmen(container) {
+      container.innerHTML = `
+        <div class="space-y-6 animate-in fade-in">
+          <div class="rounded-3xl bg-gradient-to-r from-[#FF9F1C] via-[#7B2CBF] to-[#2EC4B6] p-6 sm:p-8 text-white shadow-xl flex justify-between items-center">
+            <div>
+              <span class="px-3 py-1 rounded-full bg-white/20 text-xs font-bold">📝 Evaluasi 20 Soal</span>
+              <h2 class="text-2xl sm:text-3xl font-black font-fun">Asesmen Akhir Siswa</h2>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            ${SOAL_ASESMEN.map((s, idx) => `
+              <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-md border border-purple-100 dark:border-slate-800 space-y-3">
+                <p class="font-bold text-sm sm:text-base text-slate-800 dark:text-white font-fun"><span class="text-[#7B2CBF]">${idx + 1}.</span> ${s.q}</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  ${s.opt.map((opt, oIdx) => `
+                    <label class="p-3 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center gap-2 cursor-pointer hover:bg-purple-50 dark:hover:bg-slate-800 text-xs font-semibold">
+                      <input type="radio" name="soal-${s.id}" value="${oIdx}" onchange="userAnswers[${s.id}] = ${oIdx}" ${userAnswers[s.id] === oIdx ? 'checked' : ''} />
+                      <span>${['A', 'B', 'C', 'D'][oIdx]}. ${opt}</span>
+                    </label>
+                  `).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="pt-4 text-center">
+            <button onclick="hitungNilaiAsesmen()" class="px-8 py-4 bg-gradient-to-r from-[#7B2CBF] to-[#2EC4B6] text-white font-black rounded-2xl text-sm shadow-xl hover:scale-105 transition-all">
+              ✔ Selesai & Hitung Nilai Asesmen
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function hitungNilaiAsesmen() {
+      let correct = 0;
+      SOAL_ASESMEN.forEach(s => {
+        if (userAnswers[s.id] === s.ans) correct++;
+      });
+      const score = Math.round((correct / SOAL_ASESMEN.length) * 100);
+      let predicate = 'Perlu Bimbingan';
+      if (score >= 90) predicate = 'Sangat Baik';
+      else if (score >= 80) predicate = 'Baik';
+      else if (score >= 70) predicate = 'Cukup';
+
+      state.assessmentResult = { score, predicate, correct, total: SOAL_ASESMEN.length, date: new Date().toLocaleDateString('id-ID') };
+      if (score >= 90) { confetti({ particleCount: 150, spread: 90 }); }
+      alert(`Selamat ${state.student.name}!\nNilai Kamu: ${score}/100\nPredikat: ${predicate}`);
+      navigateMenu('sertifikat');
+    }
+
+    function renderSertifikat(container) {
+      const res = state.assessmentResult;
+      container.innerHTML = `
+        <div class="space-y-6 animate-in fade-in">
+          <div class="flex justify-between items-center">
+            <h2 class="text-2xl font-black font-fun">Sertifikat Hasil Belajar</h2>
+            <div class="flex gap-2">
+              <button onclick="window.print()" class="px-4 py-2 bg-[#7B2CBF] text-white rounded-xl text-xs font-bold shadow">🖨️ Cetak</button>
+              <button onclick="navigateMenu('kirim-nilai')" class="px-4 py-2 bg-[#2EC4B6] text-white rounded-xl text-xs font-bold shadow">📲 Kirim ke WA</button>
+            </div>
+          </div>
+
+          <div id="certificate-area" class="max-w-3xl mx-auto bg-white text-slate-900 rounded-3xl p-8 sm:p-12 shadow-2xl border-8 border-[#7B2CBF] text-center space-y-6">
+            <div class="border-2 border-dashed border-[#2EC4B6] p-6 rounded-2xl space-y-4">
+              <div class="text-xs font-black tracking-widest text-[#7B2CBF] uppercase">Media Pembelajaran Interaktif SD • NKRI</div>
+              <h2 class="text-3xl font-black font-fun uppercase">Sertifikat Kelulusan</h2>
+              <p class="text-xs text-slate-500 italic">Diberikan dengan bangga kepada:</p>
+              <h3 class="text-3xl font-black text-[#7B2CBF] font-fun underline decoration-[#2EC4B6]">${state.student.name}</h3>
+              <p class="text-xs font-bold text-slate-700">${state.student.grade} • ${state.student.school}</p>
+              <p class="text-xs text-slate-600 max-w-lg mx-auto">Telah menyelesaikan seluruh rangkaian pembelajaran dan evaluasi materi: <strong>Tempat Tinggalku Bagian dari NKRI</strong>.</p>
+              <div class="grid grid-cols-2 gap-4 max-w-xs mx-auto p-3 bg-purple-50 rounded-2xl border border-purple-200">
+                <div><span class="text-[10px] uppercase text-slate-400 font-bold">Nilai</span><p class="text-2xl font-black text-[#7B2CBF] font-fun">${res ? res.score : '-'}</p></div>
+                <div><span class="text-[10px] uppercase text-slate-400 font-bold">Predikat</span><p class="text-xs font-black text-[#2EC4B6] font-fun mt-1.5">${res ? res.predicate : 'Belum Ujian'}</p></div>
+              </div>
+              <div class="pt-4 border-t border-slate-200 flex justify-between items-center text-[11px] text-slate-500">
+                <span>Tanggal: ${res ? res.date : new Date().toLocaleDateString('id-ID')}</span>
+                <span class="font-serif italic font-bold text-[#7B2CBF]">Danu Waloyo, S.Pd.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderKirimNilai(container) {
+      const res = state.assessmentResult;
+      const scoreStr = res ? `${res.score} (Predikat: ${res.predicate})` : 'Belum Ada Nilai';
+      const msg = encodeURIComponent(`*LAPORAN HASIL BELAJAR SISWA - TEMATIK SD*
+*Materi:* B. Tempat Tinggalku Bagian dari NKRI
+
+1. *Nama Siswa:* ${state.student.name}
+2. *Kelas:* ${state.student.grade} (${state.student.school})
+3. *Nilai Asasmen Akhir:* ${scoreStr}
+4. *Rekaman Suara:* ${state.recordings.length > 0 ? 'Tersedia (' + state.recordings[0].title + ')' : 'Belum ada rekaman'}
+
+_Format: JPG Sertifikat & File Suara terlampir._`);
+
+      container.innerHTML = `
+        <div class="space-y-6 animate-in fade-in">
+          <div class="rounded-3xl bg-gradient-to-r from-[#2EC4B6] to-[#7B2CBF] p-6 sm:p-8 text-white shadow-xl">
+            <h2 class="text-2xl font-black font-fun">Kirim Nilai ke WhatsApp Guru</h2>
+            <p class="text-xs text-teal-100">Nomor WhatsApp Admin: <strong>0858-2845-9399</strong></p>
+          </div>
+
+          <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-lg border border-purple-100 dark:border-slate-800 space-y-4 text-xs font-bold">
+            <div class="p-3 bg-purple-50 dark:bg-slate-800 rounded-xl">1. Nama Siswa: <span class="text-slate-800 dark:text-white font-black">${state.student.name}</span></div>
+            <div class="p-3 bg-purple-50 dark:bg-slate-800 rounded-xl">2. Kelas: <span class="text-slate-800 dark:text-white font-black">${state.student.grade}</span></div>
+            <div class="p-3 bg-purple-50 dark:bg-slate-800 rounded-xl">3. Nilai Asasmen Akhir: <span class="text-[#7B2CBF] font-black">${scoreStr}</span></div>
+            <div class="p-3 bg-purple-50 dark:bg-slate-800 rounded-xl">4. Rekaman Suara: <span class="text-[#2EC4B6] font-black">${state.recordings.length > 0 ? state.recordings[0].title : 'Belum Ada'}</span></div>
+
+            <a href="https://api.whatsapp.com/send?phone=6285828459399&text=${msg}" target="_blank" class="block w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-black text-center text-sm rounded-2xl shadow-xl transition-all">
+              💬 Kirim Data Nilai ke WhatsApp Guru (085828459399)
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderSimulasi(container) {
+      container.innerHTML = `
+        <div class="space-y-6 animate-in fade-in">
+          <div class="rounded-3xl bg-gradient-to-r from-[#2EC4B6] to-[#7B2CBF] p-6 text-white shadow-xl">
+            <h2 class="text-2xl font-black font-fun">🎮 Simulasi Interaktif</h2>
+            <p class="text-xs text-teal-100">Susun pemimpin wilayah dan pilah 3 bentang alam!</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-purple-100 dark:border-slate-800 space-y-3">
+              <h3 class="font-black font-fun text-base">👑 Pasangan Pemimpin Wilayah</h3>
+              <ul class="text-xs space-y-2">
+                <li class="p-2.5 bg-purple-50 dark:bg-slate-800 rounded-xl">👥 RT ➔ <strong>Ketua RT</strong></li>
+                <li class="p-2.5 bg-purple-50 dark:bg-slate-800 rounded-xl">🏘️ RW ➔ <strong>Ketua RW</strong></li>
+                <li class="p-2.5 bg-purple-50 dark:bg-slate-800 rounded-xl">🏛️ Kelurahan ➔ <strong>Lurah</strong></li>
+                <li class="p-2.5 bg-purple-50 dark:bg-slate-800 rounded-xl">🏢 Kecamatan ➔ <strong>Camat</strong></li>
+                <li class="p-2.5 bg-purple-50 dark:bg-slate-800 rounded-xl">🌆 Kabupaten ➔ <strong>Bupati</strong></li>
+                <li class="p-2.5 bg-purple-50 dark:bg-slate-800 rounded-xl">🇮🇩 NKRI ➔ <strong>Presiden</strong></li>
+              </ul>
+            </div>
+
+            <div class="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-teal-100 dark:border-slate-800 space-y-3">
+              <h3 class="font-black font-fun text-base">⛰️ 3 Bentang Alam & Profesi</h3>
+              <ul class="text-xs space-y-2">
+                <li class="p-2.5 bg-teal-50 dark:bg-slate-800 rounded-xl">🏔️ <strong>Dataran Tinggi:</strong> Petani sayur, kebun teh & kopi.</li>
+                <li class="p-2.5 bg-teal-50 dark:bg-slate-800 rounded-xl">🏢 <strong>Dataran Rendah:</strong> Petani padi, pegawai kantor, pabrik.</li>
+                <li class="p-2.5 bg-teal-50 dark:bg-slate-800 rounded-xl">🏖️ <strong>Pantai:</strong> Nelayan ikan, tambak garam, kelapa.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    navigateMenu('home');
+  </script>
+</body>
+</html>
